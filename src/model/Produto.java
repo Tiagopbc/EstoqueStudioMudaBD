@@ -6,19 +6,19 @@ public class Produto {
     private String descricao;
     private String tipo;
     private int quantidade;
+    private double valor;
 
-    // Construtores
     public Produto() {}
 
-    public Produto(int id, String nome, String descricao, String tipo, int quantidade) {
+    public Produto(int id, String nome, String descricao, String tipo, int quantidade, double valor) {
         this.id = id;
         this.nome = nome;
         this.descricao = descricao;
         this.tipo = tipo;
         this.quantidade = quantidade;
+        this.valor = valor;
     }
 
-    // Getters e Setters
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
 
@@ -33,4 +33,13 @@ public class Produto {
 
     public int getQuantidade() { return quantidade; }
     public void setQuantidade(int quantidade) { this.quantidade = quantidade; }
+
+    public double getValor() { return valor; }
+    public void setValor(double valor) { this.valor = valor; }
+
+    @Override
+    public String toString() {
+        return String.format("ID: %d | Nome: %s | Tipo: %s | Valor: R$ %.2f | Quantidade: %d | Descrição: %s",
+                id, nome, tipo, valor, quantidade, (descricao == null || descricao.isBlank() ? "Sem descrição" : descricao));
+    }
 }

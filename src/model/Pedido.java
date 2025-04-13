@@ -1,34 +1,59 @@
 package model;
 
+import java.sql.Date;
+
 public class Pedido {
     private int id;
-    private String dataRequisicao;
-    private String dataEntrega;
-    private String itens; // pode ser uma string separada por vírgulas pra simplificar por enquanto
+    private Date dataRequisicao;
+    private Date dataEntrega;
     private int clienteId;
 
     public Pedido() {}
 
-    public Pedido(int id, String dataRequisicao, String dataEntrega, String itens, int clienteId) {
+    public Pedido(int id, Date dataRequisicao, Date dataEntrega, int clienteId) {
         this.id = id;
         this.dataRequisicao = dataRequisicao;
         this.dataEntrega = dataEntrega;
-        this.itens = itens;
         this.clienteId = clienteId;
     }
 
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
+    public int getId() {
+        return id;
+    }
 
-    public String getDataRequisicao() { return dataRequisicao; }
-    public void setDataRequisicao(String dataRequisicao) { this.dataRequisicao = dataRequisicao; }
+    public void setId(int id) {
+        this.id = id;
+    }
 
-    public String getDataEntrega() { return dataEntrega; }
-    public void setDataEntrega(String dataEntrega) { this.dataEntrega = dataEntrega; }
+    public Date getDataRequisicao() {
+        return dataRequisicao;
+    }
 
-    public String getItens() { return itens; }
-    public void setItens(String itens) { this.itens = itens; }
+    public void setDataRequisicao(Date dataRequisicao) {
+        this.dataRequisicao = dataRequisicao;
+    }
 
-    public int getClienteId() { return clienteId; }
-    public void setClienteId(int clienteId) { this.clienteId = clienteId; }
+    public Date getDataEntrega() {
+        return dataEntrega;
+    }
+
+    public void setDataEntrega(Date dataEntrega) {
+        this.dataEntrega = dataEntrega;
+    }
+
+    public int getClienteId() {
+        return clienteId;
+    }
+
+    public void setClienteId(int clienteId) {
+        this.clienteId = clienteId;
+    }
+
+    @Override
+    public String toString() {
+        return "Pedido #" + id +
+                " | Requisição: " + dataRequisicao +
+                " | Entrega: " + dataEntrega +
+                " | Cliente ID: " + clienteId;
+    }
 }
