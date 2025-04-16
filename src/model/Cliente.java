@@ -92,7 +92,11 @@ public class Cliente {
                 " | " + (tipo.equals("PF") ? "CPF: " : "CNPJ: ") + documento +
                 " | Tel: " + telefoneFormatado +
                 " | Email: " + email +
-                " | Endereço: " + rua + ", " + numero + ", " + bairro + ", " + cidade + " - " + estado +
+                " | Rua: " + rua +
+                " | Nº: " + numero +
+                " | Bairro: " + bairro +
+                " | Cidade: " + cidade +
+                " | UF: " + estado +
                 " | Ativo: " + (ativo ? "Sim" : "Não");
     }
 }

@@ -2,6 +2,8 @@ package main;
 
 import dao.ClienteDAO;
 import model.Cliente;
+import utils.ValidarCPF;
+import utils.ValidarCNPJ;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -33,8 +35,16 @@ public class AppCliente {
 
                         if (cpfCnpj.length() == 11) {
                             tipo = "PF";
+                            if (!ValidarCPF.isCPF(cpfCnpj)) {
+                                System.out.println("❌ CPF inválido. Tente novamente.");
+                                continue;
+                            }
                         } else if (cpfCnpj.length() == 14) {
                             tipo = "PJ";
+                            if (!ValidarCNPJ.isCNPJ(cpfCnpj)) {
+                                System.out.println("❌ CNPJ inválido. Tente novamente.");
+                                continue;
+                            }
                         } else {
                             System.out.println("❌ CPF deve ter 11 dígitos ou CNPJ 14. Tente novamente.");
                             continue;
@@ -80,15 +90,55 @@ public class AppCliente {
                         System.out.println("❌ Campo obrigatório.");
                     }
 
-                    String endereco;
+                    String cep, rua, numero, bairro, cidade, estado;
+
                     while (true) {
-                        System.out.print("Endereço: ");
-                        endereco = sc.nextLine();
-                        if (!endereco.isBlank()) break;
+                        System.out.print("CEP: ");
+                        cep = sc.nextLine();
+                        if (!cep.isBlank()) break;
                         System.out.println("❌ Campo obrigatório.");
                     }
 
-                    Cliente novo = new Cliente(0, nome, cpfCnpj, telefone, email, endereco, tipo, true);
+                    while (true) {
+                        System.out.print("Rua: ");
+                        rua = sc.nextLine();
+                        if (!rua.isBlank()) break;
+                        System.out.println("❌ Campo obrigatório.");
+                    }
+
+                    while (true) {
+                        System.out.print("Número: ");
+                        numero = sc.nextLine();
+                        if (!numero.isBlank()) break;
+                        System.out.println("❌ Campo obrigatório.");
+                    }
+
+                    while (true) {
+                        System.out.print("Bairro: ");
+                        bairro = sc.nextLine();
+                        if (!bairro.isBlank()) break;
+                        System.out.println("❌ Campo obrigatório.");
+                    }
+
+                    while (true) {
+                        System.out.print("Cidade: ");
+                        cidade = sc.nextLine();
+                        if (!cidade.isBlank()) break;
+                        System.out.println("❌ Campo obrigatório.");
+                    }
+
+                    while (true) {
+                        System.out.print("Estado: ");
+                        estado = sc.nextLine();
+                        if (!estado.isBlank()) break;
+                        System.out.println("❌ Campo obrigatório.");
+                    }
+
+                    Cliente novo = new Cliente(
+                            0, nome, cpfCnpj, telefone, email,
+                            tipo, cep, rua, numero, bairro, cidade, estado, true
+                    );
+
                     try {
                         dao.inserir(novo);
                         System.out.println("✅ Cliente cadastrado com sucesso!");
@@ -150,9 +200,29 @@ public class AppCliente {
                         String email = sc.nextLine();
                         if (!email.isEmpty()) atual.setEmail(email);
 
-                        System.out.print("Novo endereço (" + atual.getEndereco() + "): ");
-                        String endereco = sc.nextLine();
-                        if (!endereco.isEmpty()) atual.setEndereco(endereco);
+                        System.out.print("Novo CEP (" + atual.getCep() + "): ");
+                        String cep = sc.nextLine();
+                        if (!cep.isEmpty()) atual.setCep(cep);
+
+                        System.out.print("Nova rua (" + atual.getRua() + "): ");
+                        String rua = sc.nextLine();
+                        if (!rua.isEmpty()) atual.setRua(rua);
+
+                        System.out.print("Novo número (" + atual.getNumero() + "): ");
+                        String numero = sc.nextLine();
+                        if (!numero.isEmpty()) atual.setNumero(numero);
+
+                        System.out.print("Novo bairro (" + atual.getBairro() + "): ");
+                        String bairro = sc.nextLine();
+                        if (!bairro.isEmpty()) atual.setBairro(bairro);
+
+                        System.out.print("Nova cidade (" + atual.getCidade() + "): ");
+                        String cidade = sc.nextLine();
+                        if (!cidade.isEmpty()) atual.setCidade(cidade);
+
+                        System.out.print("Novo estado (" + atual.getEstado() + "): ");
+                        String estado = sc.nextLine();
+                        if (!estado.isEmpty()) atual.setEstado(estado);
 
                         dao.atualizar(atual);
                         System.out.println("✅ Cliente atualizado com sucesso!");

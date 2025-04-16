@@ -10,18 +10,24 @@ import java.util.List;
 public class ClienteDAO {
 
     public void inserir(Cliente c) throws SQLException {
-        String sql = "INSERT INTO cliente (nome, cpf_cnpj, telefone, email, endereco, tipo, ativo) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?)";
-        try (Connection conn = Conexao.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+        String sql = "INSERT INTO cliente (nome, cpf_cnpj, telefone, email, cep, rua, numero, bairro, cidade, estado, tipo, ativo) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        try (Connection conn = Conexao.getConnection()) {
+            PreparedStatement stmt = conn.prepareStatement(sql);
 
             stmt.setString(1, c.getNome());
             stmt.setString(2, c.getCpfCnpj());
             stmt.setString(3, c.getTelefone());
             stmt.setString(4, c.getEmail());
-            stmt.setString(5, c.getEndereco());
-            stmt.setString(6, c.getTipo());
-            stmt.setBoolean(7, c.isAtivo());
+            stmt.setString(5, c.getCep());
+            stmt.setString(6, c.getRua());
+            stmt.setString(7, c.getNumero());
+            stmt.setString(8, c.getBairro());
+            stmt.setString(9, c.getCidade());
+            stmt.setString(10, c.getEstado());
+            stmt.setString(11, c.getTipo());
+            stmt.setBoolean(12, c.isAtivo());
 
             stmt.executeUpdate();
         }
@@ -42,25 +48,36 @@ public class ClienteDAO {
                         rs.getString("cpf_cnpj"),
                         rs.getString("telefone"),
                         rs.getString("email"),
-                        rs.getString("endereco"),
+                        rs.getString("cep"),
+                        rs.getString("rua"),
+                        rs.getString("numero"),
+                        rs.getString("bairro"),
+                        rs.getString("cidade"),
+                        rs.getString("estado"),
                         rs.getString("tipo"),
                         rs.getBoolean("ativo")
                 );
             }
         }
-
         return null;
     }
 
     public void atualizar(Cliente c) throws SQLException {
-        String sql = "UPDATE cliente SET telefone = ?, email = ?, endereco = ? WHERE id = ?";
+        String sql = "UPDATE cliente SET telefone = ?, email = ?, cep = ?, rua = ?, numero = ?, bairro = ?, cidade = ?, estado = ?, tipo = ?, ativo = ? WHERE id = ?";
         try (Connection conn = Conexao.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, c.getTelefone());
             stmt.setString(2, c.getEmail());
-            stmt.setString(3, c.getEndereco());
-            stmt.setInt(4, c.getId());
+            stmt.setString(3, c.getCep());
+            stmt.setString(4, c.getRua());
+            stmt.setString(5, c.getNumero());
+            stmt.setString(6, c.getBairro());
+            stmt.setString(7, c.getCidade());
+            stmt.setString(8, c.getEstado());
+            stmt.setString(9, c.getTipo());
+            stmt.setBoolean(10, c.isAtivo());
+            stmt.setInt(11, c.getId());
 
             stmt.executeUpdate();
         }
@@ -100,7 +117,12 @@ public class ClienteDAO {
                         rs.getString("cpf_cnpj"),
                         rs.getString("telefone"),
                         rs.getString("email"),
-                        rs.getString("endereco"),
+                        rs.getString("cep"),
+                        rs.getString("rua"),
+                        rs.getString("numero"),
+                        rs.getString("bairro"),
+                        rs.getString("cidade"),
+                        rs.getString("estado"),
                         rs.getString("tipo"),
                         rs.getBoolean("ativo")
                 );

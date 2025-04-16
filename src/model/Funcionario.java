@@ -88,7 +88,11 @@ public class Funcionario {
                 " | Cargo: " + cargo +
                 " | Nasc: " + data_nasc +
                 " | Tel: " + telefoneFormatado +
-                " | Endereço: " + rua + ", " + numero + ", " + bairro + ", " + cidade + " - " + estado +
+                " | Rua: " + rua +
+                " | Nº: " + numero +
+                " | Bairro: " + bairro +
+                " | Cidade: " + cidade +
+                " | UF: " + estado +
                 " | Ativo: " + (ativo ? "Sim" : "Não");
     }
 }

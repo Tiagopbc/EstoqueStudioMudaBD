@@ -2,6 +2,7 @@ package main;
 
 import dao.FuncionarioDAO;
 import model.Funcionario;
+import utils.ValidarCPF;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -39,8 +40,14 @@ public class AppFuncionario {
                     while (true) {
                         System.out.print("CPF (apenas números): ");
                         cpf = sc.nextLine().replaceAll("[^\\d]", "");
+
                         if (cpf.length() != 11) {
-                            System.out.println("CPF deve ter 11 dígitos. Tente novamente.");
+                            System.out.println("❌ CPF deve ter 11 dígitos. Tente novamente.");
+                            continue;
+                        }
+
+                        if (!ValidarCPF.isCPF(cpf)) {
+                            System.out.println("❌ CPF inválido. Tente novamente.");
                             continue;
                         }
 
@@ -71,7 +78,7 @@ public class AppFuncionario {
                         System.out.print("Telefone (somente números com DDD): ");
                         telefone = sc.nextLine().replaceAll("[^\\d]", "");
                         if (telefone.length() != 11) {
-                            System.out.println("Telefone deve ter exatamente 11 dígitos. Tente novamente.");
+                            System.out.println("❌ Telefone deve ter exatamente 11 dígitos. Tente novamente.");
                         } else break;
                     }
 
