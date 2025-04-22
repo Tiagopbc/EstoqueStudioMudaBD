@@ -57,36 +57,6 @@ Sistema desenvolvido para a empresa fictícia **Studio Muda LTDA**, especializad
 
 ---
 
-## 🧠 Funcionalidades Extras
-- Validação robusta de entrada (evita exceções de digitação).
-- Menu principal com integração de todos os módulos.
-- Formatação visual clara e amigável.
-- Interface via terminal com menus numerados e padronizados.
-- Todos os módulos seguem a mesma estrutura de CRUD.
-
----
-
-## 🗃️ Banco de Dados
-- Gerenciado em MySQL.
-- Todas as tabelas criadas via `create_studiomuda.sql`.
-- Tabelas: `produto`, `funcionario`, `cliente`, `pedido`, `item_pedido`, `movimentacao_estoque`.
-- Triggers de auditoria e histórico foram removidas para simplificação.
-
----
-
-## 📁 Scripts SQL separados
-O projeto conta com arquivos separados para:
-- Criação do banco (`create_studiomuda.sql`)
-- Cadastro inicial de:
-    - Produtos
-    - Funcionários
-    - Clientes
-    - Pedidos
-    - Itens de pedido
-    - Movimentações de estoque
-
----
-
 ## 💡 Autor
 Este projeto foi desenvolvido como parte da disciplina de Banco de Dados, da César School.
 
