@@ -1,9 +1,10 @@
--- Criação do banco de dados e seleção
-CREATE DATABASE IF NOT EXISTS studiomuda;
+-- Recriação completa do banco de dados
+DROP DATABASE IF EXISTS studiomuda;
+CREATE DATABASE studiomuda;
 USE studiomuda;
 
 -- Tabela de produtos
-CREATE TABLE IF NOT EXISTS produto (
+CREATE TABLE produto (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,                        -- Nome do produto
     descricao TEXT,                                    -- Descrição opcional
@@ -13,54 +14,41 @@ CREATE TABLE IF NOT EXISTS produto (
 );
 
 -- Tabela de funcionários
-CREATE TABLE IF NOT EXISTS funcionario (
+CREATE TABLE funcionario (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,                        -- Nome do funcionário
     cpf VARCHAR(11) NOT NULL UNIQUE,                   -- CPF (único)
     cargo VARCHAR(50),                                 -- Cargo no sistema
     data_nasc DATE,                                    -- Data de nascimento
     telefone VARCHAR(20),                              -- Telefone de contato
-    ativo BOOLEAN DEFAULT TRUE                         -- Ativo/inativo
+    ativo BOOLEAN DEFAULT TRUE,                        -- Ativo/inativo
+    cep VARCHAR(10),
+    rua VARCHAR(100),
+    numero VARCHAR(10),
+    bairro VARCHAR(50),
+    cidade VARCHAR(50),
+    estado VARCHAR(2)
 );
 
--- Adicionando as colunas separadas de endereço para funcionário (com verificação de existência)
-ALTER TABLE funcionario
-ADD COLUMN IF NOT EXISTS cep VARCHAR(10),
-ADD COLUMN IF NOT EXISTS rua VARCHAR(100),
-ADD COLUMN IF NOT EXISTS numero VARCHAR(10),
-ADD COLUMN IF NOT EXISTS bairro VARCHAR(50),
-ADD COLUMN IF NOT EXISTS cidade VARCHAR(50),
-ADD COLUMN IF NOT EXISTS estado VARCHAR(2);
-
--- Remover a coluna de endereço antiga (comentado pois pode não existir)
--- ALTER TABLE funcionario DROP COLUMN endereco;
-
 -- Tabela de clientes
-CREATE TABLE IF NOT EXISTS cliente (
+CREATE TABLE cliente (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,                         -- Nome do cliente
     cpf_cnpj VARCHAR(20) NOT NULL UNIQUE,               -- CPF ou CNPJ (único)
     telefone VARCHAR(20) NOT NULL,
     email VARCHAR(100) NOT NULL,
     tipo VARCHAR(2) NOT NULL,                           -- PF ou PJ
-    ativo BOOLEAN DEFAULT TRUE                          -- Exclusão lógica
+    ativo BOOLEAN DEFAULT TRUE,                         -- Exclusão lógica
+    cep VARCHAR(10),
+    rua VARCHAR(100),
+    numero VARCHAR(10),
+    bairro VARCHAR(50),
+    cidade VARCHAR(50),
+    estado VARCHAR(2)
 );
 
--- Adicionando as colunas separadas de endereço para cliente (com verificação de existência)
-ALTER TABLE cliente
-ADD COLUMN IF NOT EXISTS cep VARCHAR(10),
-ADD COLUMN IF NOT EXISTS rua VARCHAR(100),
-ADD COLUMN IF NOT EXISTS numero VARCHAR(10),
-ADD COLUMN IF NOT EXISTS bairro VARCHAR(50),
-ADD COLUMN IF NOT EXISTS cidade VARCHAR(50),
-ADD COLUMN IF NOT EXISTS estado VARCHAR(2);
-
--- Remover a coluna de endereço antiga (comentado pois a coluna pode não existir)
--- ALTER TABLE cliente
--- DROP COLUMN endereco;
-
 -- Tabela de pedidos
-CREATE TABLE IF NOT EXISTS pedido (
+CREATE TABLE pedido (
     id INT AUTO_INCREMENT PRIMARY KEY,
     data_requisicao DATE,                              -- Data do pedido
     data_entrega DATE,                                 -- Data de entrega
@@ -69,7 +57,7 @@ CREATE TABLE IF NOT EXISTS pedido (
 );
 
 -- Tabela de cupons
-CREATE TABLE IF NOT EXISTS cupom (
+CREATE TABLE cupom (
     id INT AUTO_INCREMENT PRIMARY KEY,
     codigo VARCHAR(20) NOT NULL UNIQUE,                -- Código único
     descricao TEXT,
@@ -80,7 +68,7 @@ CREATE TABLE IF NOT EXISTS cupom (
 );
 
 -- Tabela de movimentações de estoque
-CREATE TABLE IF NOT EXISTS movimentacao_estoque (
+CREATE TABLE movimentacao_estoque (
     id INT AUTO_INCREMENT PRIMARY KEY,
     id_produto INT,                                    -- Produto afetado
     tipo VARCHAR(20),                                  -- Entrada/Saída
@@ -90,7 +78,7 @@ CREATE TABLE IF NOT EXISTS movimentacao_estoque (
 );
 
 -- Tabela de histórico de alterações no estoque
-CREATE TABLE IF NOT EXISTS historico_estoque (
+CREATE TABLE historico_estoque (
     id INT AUTO_INCREMENT PRIMARY KEY,
     id_produto INT,
     quantidade_antiga INT,
@@ -100,7 +88,7 @@ CREATE TABLE IF NOT EXISTS historico_estoque (
 );
 
 -- Tabela intermediária de itens dos pedidos
-CREATE TABLE IF NOT EXISTS item_pedido (
+CREATE TABLE item_pedido (
     id INT AUTO_INCREMENT PRIMARY KEY,
     id_pedido INT,
     id_produto INT,
@@ -110,7 +98,7 @@ CREATE TABLE IF NOT EXISTS item_pedido (
 );
 
 -- Tabela de histórico de alterações no funcionário
-CREATE TABLE IF NOT EXISTS historico_funcionario (
+CREATE TABLE historico_funcionario (
     id INT AUTO_INCREMENT PRIMARY KEY,
     id_funcionario INT,
     campo VARCHAR(50),
@@ -120,7 +108,7 @@ CREATE TABLE IF NOT EXISTS historico_funcionario (
 );
 
 -- Tabela de histórico de alterações no cliente
-CREATE TABLE IF NOT EXISTS historico_cliente (
+CREATE TABLE historico_cliente (
     id INT AUTO_INCREMENT PRIMARY KEY,
     id_cliente INT,
     campo VARCHAR(50),
@@ -216,6 +204,11 @@ BEGIN
     IF OLD.estado <> NEW.estado THEN
         INSERT INTO historico_cliente (id_cliente, campo, valor_antigo, valor_novo)
         VALUES (OLD.id, 'estado', OLD.estado, NEW.estado);
+    END IF;
+
+    IF OLD.email <> NEW.email THEN
+        INSERT INTO historico_cliente (id_cliente, campo, valor_antigo, valor_novo)
+        VALUES (OLD.id, 'email', OLD.email, NEW.email);
     END IF;
 END$$
 DELIMITER ;
